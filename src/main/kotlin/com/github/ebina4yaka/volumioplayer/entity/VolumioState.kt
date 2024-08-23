@@ -1,0 +1,28 @@
+package com.github.ebina4yaka.volumioplayer.entity
+
+data class VolumioState(
+    val status: String,
+    val position: Long,
+    val title: String,
+    val artist: String,
+    val album: String,
+    val albumart: String,
+    val uri: String,
+    val trackType: String,
+    val seek: Long,
+    val duration: Long,
+    val samplerate: String,
+    val bitdepth: String,
+    val channels: Long,
+    val random: Boolean,
+    val repeat: Boolean,
+    val repeatSingle: Boolean,
+    val consume: Boolean,
+    val volume: Long,
+    val disableVolumeControl: Boolean,
+    val mute: Boolean,
+    val stream: String,
+    val updatedb: Boolean,
+    val volatile: Boolean,
+    val service: String,
+)

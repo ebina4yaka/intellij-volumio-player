@@ -1,4 +1,4 @@
-package com.github.ebina4yaka.intellijplatformpluign
+package com.github.ebina4yaka.volumioplayer
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
