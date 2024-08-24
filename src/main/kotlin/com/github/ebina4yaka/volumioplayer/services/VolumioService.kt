@@ -11,12 +11,25 @@ class VolumioService(private val volumioHost: String = "http://volumio.local") {
 
     fun fetchState(): VolumioState {
         return runBlocking {
-            val state = volumioRepo.fetchState().execute().body()!!
+            val state = volumioRepo.fetchState().body() ?: return@runBlocking VolumioState(
+            )
             // albumartにドメインがない場合は、volumioHostを追加する
             if (!state.albumart.startsWith("http")) {
                 return@runBlocking state.copy(albumart = "${volumioHost}${state.albumart}")
             }
-            return@runBlocking volumioRepo.fetchState().execute().body()!!
+            return@runBlocking state
         }
+    }
+
+    fun toggle() {
+        volumioRepo.toggle()
+    }
+
+    fun next() {
+        volumioRepo.next()
+    }
+
+    fun prev() {
+        volumioRepo.prev()
     }
 }

@@ -4,14 +4,13 @@ import com.github.ebina4yaka.volumioplayer.services.VolumioService
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
-import java.awt.GridBagConstraints
-import java.awt.GridBagLayout
-import java.awt.Image
+import java.awt.*
 import java.net.URI
 import javax.swing.BorderFactory
 import javax.swing.ImageIcon
+import javax.swing.JButton
 
-class VolumoPlayerToolWindow(private val toolWindow: ToolWindow)  {
+class VolumoPlayerToolWindow(private val toolWindow: ToolWindow) {
     // TODO: 設定画面を追加してそこからとる
     private val volumioHost = "http://firefly.local"
     private val service = VolumioService(volumioHost)
@@ -41,8 +40,12 @@ class VolumoPlayerToolWindow(private val toolWindow: ToolWindow)  {
         val artistAndAlbumLabel = toolWindowContent.components[componentIndex++] as JBLabel
         artistAndAlbumLabel.text = newArtistAndAlbumLabel.text
 
-        val playtimeLabel = toolWindowContent.components[componentIndex] as JBLabel
+        val playtimeLabel = toolWindowContent.components[componentIndex++] as JBLabel
         playtimeLabel.text = getPlaytimeText(state.seek, state.duration)
+
+        val buttonPanel = toolWindowContent.components[componentIndex] as JBPanel<*>
+        val playButton = buttonPanel.components[1] as JButton
+        playButton.text = getPlayButtonText(state.status)
     }
 
     fun setContent() = JBPanel<JBPanel<*>>().apply {
@@ -79,10 +82,51 @@ class VolumoPlayerToolWindow(private val toolWindow: ToolWindow)  {
         val playtimeLabel = JBLabel()
         playtimeLabel.text = getPlaytimeText(state.seek, state.duration)
         playtimeLabel.font = playtimeLabel.font.deriveFont(12.0f)
-        playtimeLabel.border = BorderFactory.createEmptyBorder(5, 0, 0, 0)
+        playtimeLabel.border = BorderFactory.createEmptyBorder(5, 0, 10, 0)
 
         c.gridy++
         add(playtimeLabel, c)
+
+        val buttonPanel = JBPanel<JBPanel<*>>().apply {
+            layout = BorderLayout(5, 0)
+            val backButton = JButton("|◀")
+            val playStopButton = JButton(getPlayButtonText(state.status))
+            val nextButton = JButton("▶|")
+
+            val buttonSize = Dimension(45, 45)
+
+            nextButton.preferredSize = buttonSize
+            playStopButton.preferredSize = buttonSize
+            backButton.preferredSize = buttonSize
+
+            backButton.addActionListener {
+                service.prev()
+            }
+
+            playStopButton.addActionListener {
+                if (playStopButton.text == "▶") {
+                    playStopButton.text = "■"
+                } else {
+                    playStopButton.text = "▶"
+                }
+                service.toggle()
+            }
+
+            nextButton.addActionListener {
+                service.next()
+            }
+
+            add(backButton, BorderLayout.WEST);
+            add(playStopButton, BorderLayout.CENTER);
+            add(nextButton, BorderLayout.EAST);
+        }
+
+        c.gridy++
+        add(buttonPanel, c)
+    }
+
+    private fun getPlayButtonText(status: String): String {
+        return if (status == "play") "■" else "▶"
     }
 
     private fun getPlaytimeText(seek: Long, duration: Long): String {
