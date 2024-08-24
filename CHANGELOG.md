@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# intellij-platform-pluign Changelog
+# intellij-volumio-player Changelog
 
 ## [Unreleased]
 ### Added
