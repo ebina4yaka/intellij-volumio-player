@@ -4,6 +4,17 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 
+Unpublish version
+
+![image](https://github.com/user-attachments/assets/56d3af4a-9eb5-4f74-97e0-73ced7706cf5)
+
+## Devlopment Todo list
+- [ ] Add setting page
+- [ ] Implement volumio url settings and store
+- [ ] Implement volumio url reading from setting store
+- [ ] Release
+
+
 ## Template ToDo list
 - [x] Create a new [IntelliJ Platform Plugin Template][template] project.
 - [ ] Get familiar with the [template documentation][template].
